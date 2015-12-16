@@ -1,0 +1,49 @@
+<section id="search">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12 text-center">
+        <div class="row control-group">
+          <form ng-submit="search()">
+            <div class="form-group col-xs-10 controls">
+              <input type="search" class="form-control" ng-model="q" placeholder="Iskanje" required>
+            </div>
+
+            <div class="col-xs-2">
+              <select class="form-control" ng-cloak ng-model="orderProp" ng-show="videos.length">
+                <option value="title">Po abecedi</option>
+                <option value="views">Ogledov</option>
+                <option value="broadcastDate">Objavi</option>
+                <option value="viewTime">Času</option>
+              </select>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+    <hr class="star-primary">
+    <div class="row">
+      <div class="col-lg-10 col-lg-offset-1">
+        <section class="results">
+          <div class="no-videos" ng-hide="videos.length">No results</div>
+          <article class="row well" ng-repeat="video in videos | orderBy:orderProp" ng-cloak>
+
+            <div class="col-lg-4">
+              <a ng-href="#/play/{{video.id}}">
+                <img class="img-responsive" ng-src="{{video.images.orig}}" alt="{{video.title}}">
+              </a>
+            </div>
+            <div class="col-lg-8">
+              <h4>
+                <a ng-href="#/play/{{video.id}}">{{video.title}}</a>
+              </h4>
+              <p>
+                {{video.showDescription}}
+              </p>
+            </div>
+          </article>
+        </section>
+      </div>
+    </div>
+  </div>
+</section>
