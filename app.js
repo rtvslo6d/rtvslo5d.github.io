@@ -107,7 +107,7 @@ function rc() {
     };
   }]).controller('videosSearchCtrl', ['$scope', '$location', '$http', function($scope, $location, $http) {
     $scope.videos = [];
-    $scope.orderProp = "views";
+    $scope.orderProp = "-views";
 
     /**
      * A fresh search. Reset the scope variables to their defaults, set
@@ -115,20 +115,30 @@ function rc() {
      */
     $scope.search = function() {
       $scope.videos = [];
-      $scope.orderProp = "broadcastDate";
+      $scope.orderProp = "-views";
       var r = $http.get(rc() + "https://api.rtvslo.si/ava/getSearch?client_id=19cc0556a5ee31d0d52a0e30b0696b26&mediaType=video&q=" + $scope.q);
 
       r.success(function(data, status, headers, config) {
-        $scope.videos = data.response.recordings;
+        data = data.response.recordings;
+        angular.forEach(data, function(v) {
+          v.views = parseFloat(v.views);
+          v.viewTime = parseFloat(v.viewTime);
+        });
+        $scope.videos = data;
       });
 
     };
 
     $scope.top = function() {
-      var r = $http.get(rc() + "https://api.rtvslo.si/ava/getRecordingsByViews?interval=day&client_id=19cc0556a5ee31d0d52a0e30b0696b26");
+      var r = $http.get(rc() + "https://api.rtvslo.si/ava/getRecordingsByViews?interval=month&client_id=19cc0556a5ee31d0d52a0e30b0696b26");
 
       r.success(function(data, status, headers, config) {
-        $scope.videos = data.response.recordings;
+        data = data.response.recordings;
+        angular.forEach(data, function(v) {
+          v.views = parseFloat(v.views);
+          v.viewTime = parseFloat(v.viewTime);
+        });
+        $scope.videos = data;
       });
     }
 
