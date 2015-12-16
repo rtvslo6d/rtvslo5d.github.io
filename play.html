@@ -2,10 +2,10 @@
   <div class="container">
     <div class="row">
       <div class="col-lg-10">
-        <h1 ng-show="video">{{video.title}} <a class="btn btn-primary btn-xs" download target="_blank" rel="noreferrer" ng-href="{{video.download}}">Download</a></h1>
+        <h1 ng-show="video">{{video.title}}</h1>
         <div class="videogular-container">
           <videogular vg-player-ready="onPlayerReady($API)" vg-theme="config.theme.url">
-            <vg-media vg-src="config.sources"></vg-media>
+            <vg-media vg-src="config.sources" vg-dash></vg-media>
             <vg-controls>
               <vg-play-pause-button></vg-play-pause-button>
               <vg-time-display>{{ currentTime | date:'mm:ss':'+0000' }}</vg-time-display>
@@ -27,10 +27,26 @@
     </div>
     <hr class="star-primary">
     <div class="row" ng-show="video">
-      <div class="col-lg-10">
+      <div class="col-lg-8">
         <p>
           {{video.showDescription}}
         </p>
+      </div>
+      <div class="col-lg-4">
+        <div class="panel panel-default">
+          <div class="panel-heading">Streams</div>
+          <div class="panel-body">
+            <p>
+              <span class="label label-success">DASH</span>
+              <input type="text" class="form-control input-sm" value="{{video.addaptiveMedia['mpeg-dash']}}">
+            </p>
+            <p>
+              <span class="label label-success">HLS</span>
+              <input type="text" class="form-control input-sm" value="{{video.addaptiveMedia['hls']}}">
+            </p>
+            <p><a class="btn btn-primary btn-xs" download target="_blank" rel="noreferrer" ng-href="{{video.download}}">Download</a></p>
+          </div>
+        </div>
       </div>
     </div>
 
